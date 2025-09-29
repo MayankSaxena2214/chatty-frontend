@@ -1,4 +1,4 @@
-import { ListFilter, Search, SquarePen } from 'lucide-react'
+import { CircleUserRound, ListFilter, MessageCircleMore, Search, SquarePen } from 'lucide-react'
 import React, { useState } from 'react'
 import { Input } from '../ui/input'
 import { formatDistanceToNow } from 'date-fns';
@@ -9,6 +9,12 @@ import {
 } from "@/components/ui/tooltip"
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedChat } from '@/redux/slice/chat.slice';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import NewChat from './NewChat';
 
 const AllChats = () => {
   const {
@@ -19,12 +25,23 @@ const AllChats = () => {
   
   return (
     <div className='flex items-stretch shrink-0 h-full'>
-      <div className='w-[10%] border '>Hi</div>
+      <div className='w-[10%] py-2 border flex items-center justify-between flex-col '>
+        <MessageCircleMore className='h-5 w-5 cursor-pointer text-gray-700'/>
+        <CircleUserRound className='h-5 w-5 cursor-pointer text-gray-700'/>
+      </div>
       <div className="flex flex-col gap-1 w-full p-2">
         <div className='flex justify-between items-center'>
           <div>Chats</div>
           <div className="flex items-center gap-2">
-            <SquarePen className='h-4 w-4 text-gray-800 cursor-pointer' />
+            <Popover>
+  <PopoverTrigger>
+    <SquarePen className='h-4 w-4 text-gray-800 cursor-pointer' />
+  </PopoverTrigger>
+  <PopoverContent>
+    <NewChat/>
+  </PopoverContent>
+</Popover>
+            
             <ListFilter className='h-4 w-4 text-gray-800 cursor-pointer' />
           </div>
         </div>
