@@ -318,13 +318,21 @@ const chatSlice=createSlice({
         },
         setSelectedChat:(state,action)=>{
             state.selectedChat=action.payload;
+        },
+        setPage:(state,action)=>{
+          state.page=action.payload;
+        },
+        setLimit:(state,action)=>{
+          state.limit=action.payload;
         }
     }
 });
 
 export const {
     setChats,
-    setSelectedChat
+    setSelectedChat,
+    setPage,
+    setLimit
 }=chatSlice.actions;
 
 export default chatSlice.reducer;

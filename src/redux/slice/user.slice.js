@@ -30,35 +30,44 @@ const users = [
     // lastSeen will default to now if not provided
   }
 ];
-const initialState={
-    users:users,
-    totalItems:0,
-    page:1,
-    limit:20,
-    totalPages:1
+const initialState = {
+  users: users,
+  totalItems: 0,
+  page: 1,
+  limit: 20,
+  totalPages: 1
 }
 
-const userSlice=createSlice({
-    name:"user",
-    initialState,
-    reducers:{
-        setUsers:(state,action)=>{
-            const {
-                totalItems,
-                totalPages,
-                data
-            }=action.payload;
+const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    setUsers: (state, action) => {
+      const {
+        totalItems,
+        totalPages,
+        data
+      } = action.payload;
 
-            state.users=data;
-            state.totalItems=totalItems;
-            state.totalPages=totalPages;
-        },
-        
+      state.users = data;
+      state.totalItems = totalItems;
+      state.totalPages = totalPages;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
+
+    },
+    setLimit: (state, action) => {
+      state.limit = action.payload;
     }
+
+  }
 });
 
 export const {
-    setUsers
-}=userSlice.actions;
+  setUsers,
+  setPage,
+  setLimit
+} = userSlice.actions;
 
 export default userSlice.reducer;

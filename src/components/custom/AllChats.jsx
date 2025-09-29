@@ -1,5 +1,5 @@
 import { CircleUserRound, ListFilter, MessageCircleMore, Search, SquarePen } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import { formatDistanceToNow } from 'date-fns';
 import {
@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedChat } from '@/redux/slice/chat.slice';
+import { setPage, setSelectedChat } from '@/redux/slice/chat.slice';
 import {
   Popover,
   PopoverContent,
@@ -17,11 +17,32 @@ import {
 import NewChat from './NewChat';
 
 const AllChats = () => {
+  const contentRef=useRef(null);
   const {
     chats,
-    selectedChat
+    selectedChat,
+    page,
+    totalPages
   }=useSelector((state)=>state.chats);
   const dispatch=useDispatch();
+
+  const handleScroll=()=>{
+    const div=contentRef.current;
+    // console.log("INside handle scroll");
+    if(!div ){
+      return;
+    }
+
+    const {clientHeight,scrollTop,scrollHeight}=div;
+    
+    // console.log("ClientHeight, ScrollTop,ScrollHeight is:",clientHeight,scrollTop,scrollHeight);
+
+    if((scrollTop+clientHeight+50>=scrollHeight)){
+      dispatch(setPage(page+1));
+      console.log("Page changed");
+    }
+
+  }
   
   return (
     <div className='flex items-stretch shrink-0 h-full'>
@@ -52,7 +73,8 @@ const AllChats = () => {
         </div>
 
 
-        <div className="flex max-h-[80dvh] overflow-y-auto flex-col py-2">
+        <div ref={contentRef} onScroll={handleScroll} className="flex max-h-[80dvh] overflow-y-auto flex-col py-2">
+         
           {
             chats.map((chat, index) => {
               return <div onClick={()=>dispatch(setSelectedChat(chat))} className={` px-2 py-2 flex items-center gap-2 cursor-pointer ${selectedChat?._id == chat._id ? 'bg-gray-200' : ''}`} >

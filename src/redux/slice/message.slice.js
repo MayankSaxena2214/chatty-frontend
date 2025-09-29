@@ -325,12 +325,21 @@ const messageSlice=createSlice({
             state.messages=messages;
             state.totalItems=totalItems;
             state.totalPages=totalPages;
+        },
+         setPage:(state,action)=>{
+          state.page=action.payload;
+        },
+        setLimit:(state,action)=>{
+          state.limit=action.payload;
         }
     }
 });
 
 export const {
-    setMessages
+    setMessages,
+    setLimit,
+    setPage
+    
 }=messageSlice.actions;
 
 export default messageSlice.reducer;
